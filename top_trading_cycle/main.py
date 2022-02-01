@@ -65,6 +65,9 @@ while len(agents) > 0:
             if vertex in agent:
                 agent.remove(vertex)
 
+stable_permutation = dict(
+    sorted(stable_permutation.items(), key=lambda item: item[0]))
+
 print('\nStable Permutation:')
 for key in stable_permutation.keys():
     print(f'Agent {key} <--> House {stable_permutation[key]}')
