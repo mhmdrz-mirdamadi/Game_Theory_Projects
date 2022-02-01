@@ -1,6 +1,5 @@
 # Implementation Some of Game Theory Algorithms
 
-- Top Trading Cycle
+## Top Trading Cycle
 
-Gets preferences of the agents and outputs a stable
-permutation.
+> Gets preferences of the agents and outputs a stable permutation.
