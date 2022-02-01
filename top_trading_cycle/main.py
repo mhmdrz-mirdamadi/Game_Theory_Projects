@@ -1,19 +1,17 @@
-from itertools import cycle
-
-
 class Directed_Graph:
-    def __init__(self, num_vertices):
-        self.num_vertices = num_vertices
-        self.edges = dict([(v, []) for v in range(1, num_vertices + 1)])
+    def __init__(self):
+        self.num_vertices = 0
+        self.edges = dict()
 
     def add_edge(self, from_v, to_v):
-        self.edges[from_v].append(to_v)
+        self.edges[from_v] = to_v
+        self.num_vertices += 1
 
     def find_cycle(self):
         for start_vertex in self.edges.keys():
             visited = set()
             cycle = set()
-            end_vertex = self.edges[start_vertex][0]
+            end_vertex = self.edges[start_vertex]
 
             visited.add(start_vertex)
             visited.add(end_vertex)
@@ -23,7 +21,7 @@ class Directed_Graph:
 
             vertex_in_cycle = True
             while True:
-                end_vertex = self.edges[end_vertex][0]
+                end_vertex = self.edges[end_vertex]
 
                 if end_vertex == start_vertex:
                     return cycle
@@ -48,8 +46,25 @@ for index in range(num_agents):
         map(int, input(f'Agent {index + 1}: ').split()))
     preference_matrix.append(agent_preferences)
 
-dg = Directed_Graph(num_agents)
-for i in range(num_agents):
-    dg.add_edge(i + 1, preference_matrix[i][0])
+stable_permutation = dict()
+agents = list(range(1, num_agents + 1))
 
-print(dg.find_cycle())
+while len(agents) > 0:
+    dg = Directed_Graph()
+    for agent in agents:
+        dg.add_edge(agent, preference_matrix[agent - 1][0])
+
+    cycle = list(dg.find_cycle())
+    for vertex in cycle:
+        stable_permutation[vertex] = dg.edges[vertex]
+        preference_matrix[vertex - 1] = []
+        agents.remove(vertex)
+
+    for agent in preference_matrix:
+        for vertex in cycle:
+            if vertex in agent:
+                agent.remove(vertex)
+
+print('\nStable Permutation:')
+for key in stable_permutation.keys():
+    print(f'Agent {key} <--> House {stable_permutation[key]}')
