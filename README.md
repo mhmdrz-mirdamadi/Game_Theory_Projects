@@ -1,4 +1,4 @@
-# Implementation Some Game Theory Algorithms
+# Implementation Some of Game Theory Algorithms
 
 - Top Trading Cycle
 
